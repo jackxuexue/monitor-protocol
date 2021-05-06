@@ -1,6 +1,7 @@
 package com.jackxue.monitor.config;
 
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,12 +27,15 @@ public class DynamicDataSourceConfig {
         return DruidDataSourceBuilder.create().build();
     }
 
-    @Bean
     @Primary
-    public DynamicDataSource dataSource(DataSource oneDataSource, DataSource twoDataSource){
+    @Bean("DynamicDataSource")
+    public DynamicDataSource dataSource(
+            @Qualifier("oneDataSource") DataSource oneDataSource,
+            @Qualifier("twoDataSource") DataSource twoDataSource){
         Map<Object, Object> targetSources = new HashMap<>(2);
         targetSources.put(DataSourceNames.ONE, oneDataSource);
         targetSources.put(DataSourceNames.TWO, twoDataSource);
+        System.out.println("DynamicDataSource...............");
         return new DynamicDataSource(oneDataSource, targetSources);
     }
 

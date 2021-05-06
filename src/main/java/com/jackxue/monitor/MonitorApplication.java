@@ -8,7 +8,8 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Import;
 
 @Import({DynamicDataSourceConfig.class})
-@SpringBootApplication(exclude={DataSourceAutoConfiguration.class})
+@MapperScan(basePackages = {"com.jackxue.monitor.mapper"})
+@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 public class MonitorApplication {
 
     public static void main(String[] args) {

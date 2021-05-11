@@ -4,11 +4,11 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     druid:
       one:
-        url: jdbc:mysql://192.168.100.102:3306/test1
+        url: jdbc:mysql://192.168.100.102:3306/monitor_protocol
         username: root
         password: 123456
       two:
-        url: jdbc:mysql://192.168.100.103:3306/test1
+        url: jdbc:mysql://192.168.100.103:3306/monitor_protocol
         username: root
         password: 123456
       initial-size: 10

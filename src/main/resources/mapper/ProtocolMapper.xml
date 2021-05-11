@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jackxue.monitor.mapper.ProtocolMapper">
+    <resultMap id="ResultMap" type="com.jackxue.monitor.entities.Protocol">
+        <result column="p_id" property="id" />
+        <result column="p_name" property="name" />
+        <result column="p_version" property="version" />
+        <result column="p_created_time" property="createdTime" />
+        <result column="p_updated_time" property="updatedTime" />
+        <collection property="registers" ofType="com.jackxue.monitor.entities.Register">
+            <id column="reg_id" property="id" />
+            <result column="reg_protocol_id" property="protocolId" />
+            <result column="reg_region_id" property="regionId" />
+            <result column="reg_name" property="name" />
+            <result column="reg_address" property="address" />
+            <result column="reg_bytes" property="bytes" />
+            <result column="reg_type" property="type" />
+            <result column="reg_unit" property="unit" />
+            <result column="reg_accuracy" property="accuracy" />
+            <result column="reg_state" property="state" />
+            <result column="min_value" property="minValue" />
+            <result column="max_value" property="maxValue" />
+            <result column="reg_description" property="description" />
+            <result column="reg_created_time" property="createdTime" />
+            <result column="reg_updated_time" property="updatedTime" />
+            <collection property="faults" ofType="com.jackxue.monitor.entities.Fault">
+                <id column="f_id" property="id" />
+                <result column="f_register_id" property="registerId" />
+                <result column="f_name" property="name" />
+                <result column="f_offset" property="offset" />
+                <result column="f_level" property="level" />
+                <result column="f_source" property="source" />
+                <result column="f_description" property="description" />
+                <result column="f_created_time" property="createdTime" />
+                <result column="f_updated_time" property="updatedTime" />
+            </collection>
+        </collection>
+    </resultMap>
+
+    <select id="list" resultMap="ResultMap">
+        SELECT  reg.id reg_id, reg.protocol_id reg_protocol_id, reg.region_id reg_region_id, reg.name reg_name,
+        reg.address reg_address, reg.bytes reg_bytes, reg.type reg_type,
+        reg.unit reg_unit, reg.accuracy reg_accuracy, reg.state reg_state, reg.min_value, reg.max_value,
+        reg.description reg_description,reg.created_time reg_created_time, reg.updated_time reg_updated_time,
+        f.id f_id, f.register_id f_register_id, f.name f_name, f.offset f_offset, f.level f_level, f.source f_source,
+        f.description f_description, f.created_time f_created_time, f.updated_time f_updated_time,
+        p.id p_id, p.name, p.version p_version,p.created_time, p.updated_time
+        FROM register reg
+        LEFT JOIN fault f
+        ON f.register_id = reg.id
+        LEFT JOIN protocol p
+        ON p.id = reg.protocol_id
+        order by reg.id, f.offset
+    </select>
+</mapper>
